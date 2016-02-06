@@ -27,7 +27,7 @@
                 ;; If no code is to be run, set :figwheel true for continued automagical reloading
                 :figwheel {:on-jsload "temp.core/on-js-reload"}
 
-                :compiler {:main temp.core
+                :compiler {:main guten-better.core
                            :asset-path "js/compiled/out"
                            :output-to "resources/public/js/compiled/temp.js"
                            :output-dir "resources/public/js/compiled/out"
