@@ -1,8 +1,12 @@
 
 import json
-from guten import get_guten_text, get_next_text_chunk
+import guten
 from bottle import route, run, request, abort
 from validate_email import validate_email
+from models import TextSchedule
+from schedule_handler import ScheduleHandler
+
+text_schedule_handler = ScheduleHandler()
 
 @route('/schedule', method='POST')
 def post_new_book_schedule():
@@ -24,19 +28,38 @@ def post_new_book_schedule():
     schedule_json = json.loads(data)
     validate_schedule_json(schedule_json)
 
-    return json.dumps(schedule_json)
+    text_schedule = TextSchedule.from_json(schedule_json)
+    handle_new_schedule(text_schedule)
+
+    return u''
+
+@route('/schedules', method='GET')
+def get_all_schedules():
+    """ Returns a list of all scheduled readers """
+
+    schedules = text_schedule_handler.get_schedule_list()
+    schedule_strings = [str(schedule) for schedule in schedules]
+
+    return schedule_strings
 
 def validate_schedule_json(schedule_json):
-    if not schedule_json.has_key('email'):
+    if not schedule_json.has_key(u'email'):
         abort(400, 'No email specified')
 
-    if not validate_email(schedule_json['email']):
+    if not validate_email(schedule_json[u'email']):
         abort(400, 'Email is invalid')
 
-    if not schedule_json.has_key('gutenberg_id'):
+    if not schedule_json.has_key(u'gutenberg_id'):
         abort(400, 'No Gutenberg Book ID specified')
 
-    if not schedule_json.has_key('days_to_read'):
-        schedule_json['days_to_read'] = 30
+    if not schedule_json.has_key(u'days_to_read'):
+        schedule_json[u'days_to_read'] = 30
+
+def handle_new_schedule(text_schedule):
+    # send first chunk right on sign up :)
+    text_schedule_handler.send_next_chunk_for_schedule(text_schedule)
+
+    # add schedule to redis
+    text_schedule_handler.add_schedule(text_schedule)
 
 run(host='localhost', port=8080)

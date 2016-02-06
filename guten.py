@@ -2,12 +2,10 @@
 import requests
 
 
-def get_next_text_chunk(guten_id, current_chunk_index=None, chunk_length=10000):
-    """ Returns the next readable chunk for the given gutenberg text """
+def get_next_text_chunk(text, chunk_index=0, chunk_length=10000):
+    """ Returns the next readable chunk for the given text """
 
-    text = get_guten_text(guten_id)
-
-    start_idx = (current_chunk_index + 1) * chunk_length if current_chunk_index is not None else 0
+    start_idx = chunk_index * chunk_length
     if start_idx >= len(text):
         return None
 
@@ -15,7 +13,7 @@ def get_next_text_chunk(guten_id, current_chunk_index=None, chunk_length=10000):
 
     return text[start_idx : end_idx]
 
-def get_guten_text(guten_id):
+def get_text(guten_id):
     """ Grabs the plaintext version of the book at the given ID from the Web and returns
     a stripped and ready-to-read version"""
 
