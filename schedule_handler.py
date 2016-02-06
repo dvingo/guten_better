@@ -22,6 +22,9 @@ class ScheduleHandler:
         return model_list
 
     def send_next_chunk_for_schedule(self, text_schedule):
+        if text_schedule.is_finished():
+            return
+
         text = guten.get_text(text_schedule.gutenberg_id)
         chunk_index = text_schedule.days_sent
         chunk_length = int(len(text) / text_schedule.days_to_read)
@@ -32,3 +35,28 @@ class ScheduleHandler:
 
         # TODO: send chunk via email ~_~
         print 'sent chunk lol'
+
+    def send_next_chunks_for_all_schedules(self):
+        number_of_schedules = self.redisClient.llen(self.list_key)
+
+        for i in range(number_of_schedules):
+            schedule_json = self.redisClient.lindex(self.list_key, i)
+            schedule = TextSchedule.from_json(json.loads(schedule_json))
+
+            self.send_next_chunk_for_schedule(schedule)
+
+            updated_json = schedule.to_json()
+            self.redisClient.lset(self.list_key, i, updated_json)
+
+    def cleanup_finished_schedules(self):
+        number_of_schedules = self.redisClient.llen(self.list_key)
+        schedule_list = self.redisClient.lrange(self.list_key, 0, number_of_schedules)
+
+        finished_items = []
+        for schedule_json in schedule_list:
+            schedule = TextSchedule.from_json(json.loads(schedule_json))
+            if schedule.is_finished():
+                finished_items.append(schedule_json)
+
+        for finished in finished_items:
+            self.redisClient.lrem(self.list_key, 0, finished)

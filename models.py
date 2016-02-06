@@ -12,8 +12,11 @@ class TextSchedule:
     def __str__(self):
         return self.to_json()
 
+    def is_finished(self):
+        return self.days_sent >= self.days_to_read
+
     def increment_days_sent(self):
-        if days_sent >= days_to_read:
+        if self.is_finished():
             return
 
         self.days_sent += 1
