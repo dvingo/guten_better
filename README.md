@@ -27,3 +27,14 @@ To clean all compiled files:
 To create a production build run:
 
     lein do clean, cljsbuild once min
+
+## Get book covers
+
+Python script will fetch images for the books in "top_100.txt"
+
+Install fim first:
+```sh
+npm install -g fetch-image
+```
+
+python get_cover_images.py > images.html
