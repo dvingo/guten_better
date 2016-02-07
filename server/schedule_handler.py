@@ -4,6 +4,7 @@ import json
 import redis
 import guten
 from models import TextSchedule
+from guten_email import send_guten_email
 
 class ScheduleHandler:
     def __init__(self, list_key='guten_schedule_list'):
@@ -30,11 +31,9 @@ class ScheduleHandler:
         chunk_length = int(len(text) / text_schedule.days_to_read)
 
         chunk_to_send = guten.get_next_text_chunk(text, chunk_index, chunk_length)
+        send_guten_email(text_schedule.email, text_schedule.days_sent, chunk_to_send)
 
         text_schedule.increment_days_sent()
-
-        # TODO: send chunk via email ~_~
-        print 'sent chunk lol'
 
     def send_next_chunks_for_all_schedules(self):
         number_of_schedules = self.redisClient.llen(self.list_key)
