@@ -1,8 +1,8 @@
 from json import dumps as json_dumps
 import sys
 
-titles_filename = 'top_35.txt'
-covers_filename = 'cover-image-list-no-names.txt'
+titles_filename = 'top_100.txt'
+covers_filename = 'cover-image-list-no-names-new.txt'
 titles_data = None
 covers_data = None
 
@@ -33,6 +33,7 @@ def parse_title_data(title):
 
 output = []
 for title_tuple in combined:
+    # print 'processing ', title_tuple
     title_data = parse_title_data(title_tuple[0])
     cover_url = title_tuple[1]
     title_data['cover_url'] = cover_url
