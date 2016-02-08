@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "Overlock";
+  src: url("/src/fonts/Overlock-Regular.ttf");
+}
+
 html, body {
   margin: 0;
   padding: 0;
@@ -9,4 +14,12 @@ body {
 .book {
   // max-height: 400px;
   height: 400px;
+  transform: rotate(-10deg);
+}
+.book:nth-child(even) {
+  transform: rotate(10deg);
+}
+
+.app {
+  font-family: 'Overlock';
 }

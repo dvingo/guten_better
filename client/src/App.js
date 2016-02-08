@@ -9,7 +9,8 @@ export default class App extends Component {
       return <img src={book.cover_url} className="book" />
     })
     return (
-      <div className="App">
+      <div className="app">
+        <h1>Read a book, a few pages at a time.</h1>
         {books}
       </div>
     );
