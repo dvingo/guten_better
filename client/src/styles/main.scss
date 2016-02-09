@@ -2,20 +2,18 @@
   font-family: "Overlock";
   src: url("/src/fonts/Overlock-Regular.ttf");
 }
-
+// Possible font for email body:
+// https://www.google.com/fonts/specimen/Hammersmith+One
+//
 html, body {
   margin: 0;
   padding: 0;
 }
 body {
-  background: rebeccapurple;
+  background-color: #f5e3d1;
+  background-image: url("/src/images/otis-redding.png");
 }
 
-.book {
-  // max-height: 400px;
-  height: 400px;
-  transform: rotate(-10deg);
-}
 .book:nth-child(even) {
   transform: rotate(10deg);
 }
@@ -23,3 +21,5 @@ body {
 .app {
   font-family: 'Overlock';
 }
+
+@import '../components/book/book';

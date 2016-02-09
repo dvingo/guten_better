@@ -1,0 +1,72 @@
+.book {
+  outline: 1px solid blue;
+  float: left;
+  display: inline-block;
+  position: relative;
+  @media only screen and (max-width: 399px) {
+    width: 50%;
+  }
+  @media only screen and (min-width: 400px) and (max-width: 699px) {
+    width:33%;
+  }
+  @media only screen and (min-width: 700px) and (max-width: 949px) {
+    width:25%;
+  }
+  @media only screen and (min-width: 950px) {
+    width:20%;
+  }
+}
+
+.book__aspect-helper {
+  padding-top: 125%
+}
+
+.book__vertical-helper {
+  height: 100%;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.book__img {
+  opacity: .75;
+  height: 80%;
+  width: auto;
+  vertical-align: middle;
+  border-radius: 4px;
+
+  -webkit-box-shadow: -5px 0px 4px rgba(50, 10, 0, .2);
+  box-shadow: -5px 0px 4px rgba(50, 10, 0, .2);
+
+  -webkit-transform: rotate(2deg);
+  transform: rotate(2deg);
+
+  &:hover {
+    opacity: 1;
+    cursor: pointer;
+    height: 85%;
+    -webkit-transform: rotate(0deg) !important;
+    -moz-transform: rotate(0deg) !important;
+    transform: rotate(0deg) !important;
+  }
+}
+
+.book__front-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  text-align:center;
+}
+
+.book__back-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  text-align:center;
+  -webkit-filter:blur(1px);
+}
