@@ -1,0 +1,32 @@
+---
+
+- name: Update packages
+  sudo: yes
+  apt: update_cache=yes upgrade=yes
+
+- name: Install nginx
+  sudo: yes
+  apt: pkg=nginx state=latest
+
+- name: Remove existing default symlink
+  sudo: yes
+  file: path=/etc/nginx/sites-enabled/default state=absent
+
+- name: Put nginx vhost config in place
+  sudo: yes
+  copy: src=site_vhost.conf dest="/etc/nginx/sites-available/{{ site_name }}"
+
+- name: Create symlink to enable site
+  sudo: yes
+  file: src="/etc/nginx/sites-available/{{ site_name }}"
+        dest="/etc/nginx/sites-enabled/{{ site_name }}"
+        state=link
+
+#- name: Put the nginx config in place
+  #sudo: yes
+  #copy: src=nginx.conf dest=/etc/nginx/nginx.conf
+  #notify:
+    #- restart nginx
+
+- name: restart nginx
+  service: name=nginx state=restarted

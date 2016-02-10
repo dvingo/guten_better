@@ -1,0 +1,7 @@
+---
+
+- hosts: main_box
+  roles:
+    - common
+    - nginx
+    - DavidWittman.redis

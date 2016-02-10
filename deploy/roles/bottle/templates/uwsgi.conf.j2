@@ -1,0 +1,10 @@
+[uwsgi]
+socket = /run/uwsgi/app/{{ app_name }}/socket
+chdir =  {{ bottle_deploy_dir }}
+master = true
+plugins = python
+file = app.py
+virtualenv = {{ virtualenv_name }}
+uid = www-data
+gid = www-data
+vacuum = true

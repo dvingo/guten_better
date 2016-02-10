@@ -1,0 +1,33 @@
+---
+
+- name: Update apt-cache
+  sudo: yes
+  apt: update_cache=yes
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Install dependencies
+  apt: pkg={{ item }} state=latest
+  sudo: yes
+  with_items:
+    - python-software-properties
+    - python-apt
+    - python
+    - g++
+    - make
+    - git
+
+- name: Put uwsgi config file in place
+  template: src=uwsgi.conf.j2
+            dest=/etc/uwsgi/apps-available/{{ app_name }}.ini
+            mode=0644
+
+- name: Activate the uwsgi config
+  sudo: yes
+  file: src=/etc/uwsgi/apps-available/{{ app_name }}.ini
+        dest=/etc/uwsgi/apps-enabled/{{ app_name }}.ini
+        state=link
+        mode=0644
+
+- name: Start uwsgi
+  sudo: yes
+  command: service uwsgi start

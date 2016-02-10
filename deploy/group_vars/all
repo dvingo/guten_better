@@ -1,0 +1,20 @@
+---
+
+git_repo: git@github.com:dvingo/guten_better.git
+deploy_dir: /srv/guten_better
+server_dir: "{{ deploy_dir }}/server"
+site_name: guten_better
+
+# nginx variables
+nginx_root_dir="{{ deploy_dir }}/client/dist"
+
+# Redis variables
+redis_version: 3.0.7
+redis_bind: 127.0.0.1
+# Use default install dir:
+#  /var/lib/redis/
+
+# Bottle vars
+app_name="guten_better"
+bottle_deploy_dir="{{ deploy_dir }}"
+virtualenv_name="{{ app_name }}"

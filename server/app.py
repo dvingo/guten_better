@@ -1,7 +1,7 @@
 
 import json
 import guten
-from bottle import route, run, request, abort
+from bottle import route, run, request, abort, default_app
 from validate_email import validate_email
 from models import TextSchedule
 from schedule_handler import ScheduleHandler
@@ -62,4 +62,10 @@ def handle_new_schedule(text_schedule):
     # add schedule to redis
     text_schedule_handler.add_schedule(text_schedule)
 
-run(host='localhost', port=8080)
+# Run bottle internal test server when invoked directly ie: non-uxsgi mode
+if __name__ == '__main__':
+    run(host='localhost', port=8080)
+
+# Run bottle in application mode. Required in order to get the application working with uWSGI!
+else:
+    app = application = default_app()

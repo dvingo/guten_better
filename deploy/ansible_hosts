@@ -1,0 +1,5 @@
+[local]
+127.0.0.1 ansible_connection=local
+
+[main_box]
+IP or domain here! ansible_ssh_user=admin ansible_ssh_port=2222
