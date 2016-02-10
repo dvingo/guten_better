@@ -17,9 +17,8 @@ def get_text(guten_id):
     """ Grabs the plaintext version of the book at the given ID from the Web and returns
     a stripped and ready-to-read version"""
 
-    url = 'http://www.gutenberg.org/files/{0}/{0}-0.txt'.format(guten_id)
+    url = 'http://www.gutenberg.org/cache/epub/{0}/pg{0}.txt'.format(guten_id)
     res = requests.get(url)
-
     text = res.text.encode('utf-8').strip()
     book_text = strip_garbage_from_guten_text(text)
     return book_text

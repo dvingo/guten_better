@@ -31,5 +31,5 @@ def send_email(user, pwd, recipient, subject, body):
         server.sendmail(FROM, TO, message)
         server.close()
         print 'successfully sent the mail'
-    except:
-        print "failed to send mail"
+    except Exception, e:
+        print "failed to send mail: ", e
