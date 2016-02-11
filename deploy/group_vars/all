@@ -3,19 +3,19 @@
 git_repo: https://github.com/dvingo/guten_better.git
 deploy_dir: /srv/guten_better/app
 server_dir: "{{ deploy_dir }}/server"
-site_n  ame: guten_better
+site_name: guten_better
 
 # nginx variables
 nginx_root_dir: "{{ deploy_dir }}/client/dist"
-nginx_server_name: 104.236.6.51
+nginx_server_name: pageaday.club
 
 # Redis variables
 redis_version: 3.0.7
 redis_bind: 127.0.0.1
 # Use default install dir:
-#  /var/lib/redis/
+#  /opt/redis/
 
 # Bottle vars
 app_name: "guten_better"
-bottle_deploy_dir: "{{ deploy_dir }}/app/server"
+bottle_deploy_dir: "{{ server_dir }}"
 virtualenv_name: "{{ app_name }}"

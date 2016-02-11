@@ -14,6 +14,8 @@
   sudo: yes
   command: pip install virtualenv
 
+### TODO these commands depend on having the git repo cloned already.
+### Should split into two sections.
 - name: Make server dir
   sudo: yes
   file: path={{ bottle_deploy_dir }} state=directory mode=0755

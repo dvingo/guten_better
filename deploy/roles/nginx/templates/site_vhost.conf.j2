@@ -3,16 +3,17 @@ upstream _{{ app_name }} {
 }
 
 server {
-  listen 80 default_server;
-  listen [::]:80 default_server ipv6only=on;
+  listen 80;
+  listen [::]:80;
   server_name {{ nginx_server_name }};
 
   root {{ nginx_root_dir }};
   index index.html index.htm;
   resolver 8.8.8.8;
 
-  # Make site accessible from http://localhost/
-  server_name localhost;
+  location = / {
+    try_files /index.htm /index.html;
+  }
 
   location / {
     try_files $uri @uwsgi;
