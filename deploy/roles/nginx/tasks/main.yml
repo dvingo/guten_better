@@ -14,19 +14,13 @@
 
 - name: Put nginx vhost config in place
   sudo: yes
-  copy: src=site_vhost.conf dest="/etc/nginx/sites-available/{{ site_name }}"
+  template: src=site_vhost.conf.j2 dest="/etc/nginx/sites-available/{{ site_name }}"
 
 - name: Create symlink to enable site
   sudo: yes
   file: src="/etc/nginx/sites-available/{{ site_name }}"
         dest="/etc/nginx/sites-enabled/{{ site_name }}"
         state=link
-
-#- name: Put the nginx config in place
-  #sudo: yes
-  #copy: src=nginx.conf dest=/etc/nginx/nginx.conf
-  #notify:
-    #- restart nginx
 
 - name: restart nginx
   service: name=nginx state=restarted

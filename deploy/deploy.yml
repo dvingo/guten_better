@@ -1,0 +1,16 @@
+---
+
+- hosts: main_box
+  tasks:
+    - name: Clone the app repo
+      sudo: yes
+      git: repo={{ git_repo }}
+           dest={{ deploy_dir }}
+           accept_hostkey=yes
+           key_file=/home/admin/.ssh/id_rsa
+           version=master
+           force=yes
+
+    - name: Restart uwsgi
+      sudo: yes
+      service: name=uwsgi state=restarted

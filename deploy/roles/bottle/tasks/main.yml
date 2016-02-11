@@ -1,26 +1,45 @@
 ---
 
-  - name: Install bottle dependencies
-    apt: pkg={{ item }} state=latest
-    sudo: yes
-    with_items:
-      - python-software-properties
-      - virtualenv
-      - python2.7
-      - python-pip
-      - uwsgi
-      - uwsgi-plugin-python
+- name: Install bottle dependencies
+  apt: pkg={{ item }} state=latest
+  sudo: yes
+  with_items:
+    - python-software-properties
+    - python2.7
+    - python-pip
+    - uwsgi
+    - uwsgi-plugin-python
 
-  - name: Install virtualenv
-    sudo: yes
-    command: pip install virtualenv
+- name: Install virtualenv
+  sudo: yes
+  command: pip install virtualenv
 
-  - name: Make virtualenv
-    sudo: yes
-    command: virtualenv {{ virtualenv_name }}
-      chdir={{ bottle_deploy_dir }}
+- name: Make server dir
+  sudo: yes
+  file: path={{ bottle_deploy_dir }} state=directory mode=0755
 
-  - name: Install bottle
-    sudo: yes
-    command: {{ virtualenv_name }}/bin/pip install bottle
-      chdir={{ bottle_deploy_dir }}
+- name: Make virtualenv
+  sudo: yes
+  command: virtualenv {{ virtualenv_name }}
+    chdir={{ bottle_deploy_dir }}
+
+- name: Install bottle
+  sudo: yes
+  command: "{{ virtualenv_name }}/bin/pip install bottle chdir={{ bottle_deploy_dir }}"
+
+- name: Put uwsgi config file in place
+  sudo: yes
+  template: src=uwsgi.conf.j2
+            dest=/etc/uwsgi/apps-available/{{ app_name }}.ini
+            mode=0644
+
+- name: Activate the uwsgi config
+  sudo: yes
+  file: src=/etc/uwsgi/apps-available/{{ app_name }}.ini
+        dest=/etc/uwsgi/apps-enabled/{{ app_name }}.ini
+        state=link
+        mode=0644
+
+- name: Start uwsgi
+  sudo: yes
+  service: name=uwsgi state=started
