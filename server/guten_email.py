@@ -1,9 +1,10 @@
-
+import os
 import smtplib
 
+# TODO READ password from env variable.
 def send_guten_email(recipient, day, chunk):
     user = u'gutenbetter@gmail.com'
-    password = '' # TODO: fill in password, don't commit to git ;)
+    password = os.environ['GUTEN_BETTER_EMAIL_PASS']
     subject = u'Guten Better Day ' + str(day)
 
     # TODO: html baby... html
