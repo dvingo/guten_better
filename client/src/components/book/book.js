@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
-export default class App extends Component {
+
+export default class Book extends Component {
+
+
   render() {
     const { cover_url: coverUrl, name } = this.props.book
+
     return (
       <div className="book">
         <div className="book__aspect-helper"></div>
@@ -15,7 +19,7 @@ export default class App extends Component {
         <div className="book__front-container">
           <div className="book__vertical-helper"></div>
             <img src={coverUrl} className="book__img"
-                 title={name} alt={name} />
+                 title={name} alt={name} onClick={this.props.onClick.bind(null, this.props.book)} />
         </div>
       </div>
     );

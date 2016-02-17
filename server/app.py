@@ -20,7 +20,6 @@ def post_new_book_schedule():
     Post data *can* include the following optional keys:
         'days_to_read': Number of days the reader would like to read text in; defualts to 30
     """
-
     data = request.body.readline()
     if not data:
         abort(400, 'No data received')

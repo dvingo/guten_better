@@ -3,9 +3,12 @@ from json import loads as json_loads
 import os
 import urllib
 
-book_data_filename = './book_data.json'
+book_data_filename = './good_book_data.json'
 output_dir = 'new_images'
 book_data = None
+
+if not os.path.exists(output_dir):
+    os.mkdir(output_dir, 0755)
 
 with open(book_data_filename) as book_data_file:
     book_data = json_loads(book_data_file.read())
