@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import styles from '../styles/main.scss'
-import bookData from '../../book_data_twenty.json'
-import Book from './book/book';
+import styles     from '../styles/main.scss'
+import bookData   from '../../book_data_twenty.json'
+import Book       from './book/book';
 import BookDetail from './book_detail/book_detail'
+import axios      from 'axios'
+const postScheduleEnpoint = '/schedule'
 
 export default class App extends Component {
   constructor() {
@@ -20,10 +22,28 @@ export default class App extends Component {
     this.setState({selectedBook:null})
   };
 
+  handleSubscription = (email) => {
+    console.log('IN APP, got email: ', email);
+    const {selectedBook} = this.state
+    axios.post(postScheduleEnpoint, {
+      email: email,
+      gutenberg_id: selectedBook.guten_id
+    })
+    .then( () => {
+      // TODO popup with success message to human.
+    })
+    .catch( () => {
+      // TODO popup with failure message to human.
+    })
+    this.setState({selectedBook: null})
+  };
+
   renderSelectedBook = () => {
     const {selectedBook} = this.state
     if (selectedBook) {
-      return <BookDetail book={selectedBook}
+      return <BookDetail
+               book={selectedBook}
+               onSubmit={this.handleSubscription}
                onClose={this.handleDeselectBook}/>
     }
   };
