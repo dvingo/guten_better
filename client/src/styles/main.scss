@@ -20,6 +20,13 @@ body {
 
 .app {
   font-family: 'Overlock';
+  & > h1 {
+    text-align: center;
+    color: #2d48bd;
+    text-shadow: 2px 2px 3px #969696;
+    font-family: arial, sans-serif;
+    font-size: 70px;
+  }
 }
 
 @import '../components/book/book';
