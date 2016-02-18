@@ -5,7 +5,7 @@ import Alert      from './alert/alert'
 import Book       from './book/book';
 import BookDetail from './book_detail/book_detail'
 import axios      from 'axios'
-const postScheduleEnpoint = 'http://localhost:8080/schedules'
+const postScheduleEnpoint = '/schedules'
 
 export default class App extends Component {
 
