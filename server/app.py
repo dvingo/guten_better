@@ -8,7 +8,7 @@ from schedule_handler import ScheduleHandler
 
 text_schedule_handler = ScheduleHandler()
 
-@route('/schedule', method='POST')
+@route('/schedules', method='POST')
 def post_new_book_schedule():
     """
     Post to this endpoint to add a new reader.

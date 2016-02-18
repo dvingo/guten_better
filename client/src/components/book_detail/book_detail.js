@@ -11,6 +11,14 @@ export default class BookDetail extends Component {
     this.state = { error: null, email: null }
   }
 
+  componentDidMount() {
+    window.addEventListener('keyup', this.handleKeyPress)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keyup', this.handleKeyPress)
+  }
+
   handleOnSubmit = (e) => {
     e.preventDefault()
     this.setState({error: null})
@@ -32,6 +40,12 @@ export default class BookDetail extends Component {
     const {error} = this.state
     if (error) {
       return <p className="book-detail__error">{error}</p>
+    }
+  };
+
+  handleKeyPress = (e) => {
+    if (e.key === 'Escape') {
+      this.props.onClose()
     }
   };
 
