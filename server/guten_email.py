@@ -1,36 +1,18 @@
 import os
-import smtplib
+import boto.ses
 
-# TODO READ password from env variable.
+AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+
 def send_guten_email(recipient, day, chunk):
-    user = u'gutenbetter@gmail.com'
-    password = os.environ['GUTEN_BETTER_EMAIL_PASS']
-    subject = u'Guten Better Day ' + str(day)
+    subject = u'Page a day club, Day {}'.format(day)
+    body = chunk
+    send_email(recipient, subject, body)
 
-    # TODO: html baby... html
-    body = 'Enjoy!!! Guten Better Day {0} Baby...\n\n{1}'.format(day, chunk)
-
-    send_email(user, password, recipient, subject, body)
-
-# lol http://stackoverflow.com/questions/10147455/how-to-send-an-email-with-gmail-as-provider-using-python
-def send_email(user, pwd, recipient, subject, body):
-
-    gmail_user = user
-    gmail_pwd = pwd
-    FROM = user
-    TO = recipient if type(recipient) is list else [recipient]
-    SUBJECT = subject
-    TEXT = body
-
-    # Prepare actual message
-    message = '\From: {0}\nTo: {1}\nSubject: {2}\n\n{3}'.format(FROM, ', '.join(TO), SUBJECT, TEXT)
-    try:
-        server = smtplib.SMTP("smtp.gmail.com", 587)
-        server.ehlo()
-        server.starttls()
-        server.login(gmail_user, gmail_pwd)
-        server.sendmail(FROM, TO, message)
-        server.close()
-        print 'successfully sent the mail'
-    except Exception, e:
-        print "failed to send mail: ", e
+def send_email(recipient, subject, body):
+    conn = boto.ses.connect_to_region(
+        'us-east-1',
+        aws_access_key_id=AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+        
+    conn.send_email('read@pageaday.club', subject, body, [recipient])
