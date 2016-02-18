@@ -1,8 +1,10 @@
 import os
 import boto.ses
 
-AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
-AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+with open('./stuff.txt') as f:
+    lines = f.read().splitlines()
+    AWS_ACCESS_KEY_ID = lines[0]
+    AWS_SECRET_ACCESS_KEY = lines[1]
 
 def send_guten_email(recipient, day, chunk):
     subject = u'Page a day club, Day {}'.format(day)
@@ -14,5 +16,5 @@ def send_email(recipient, subject, body):
         'us-east-1',
         aws_access_key_id=AWS_ACCESS_KEY_ID,
         aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
-        
+
     conn.send_email('read@pageaday.club', subject, body, [recipient])
