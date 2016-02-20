@@ -1,7 +1,9 @@
 import os
 import boto.ses
 
-with open('./stuff.txt') as f:
+filename = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'stuff.txt')
+
+with open(filename) as f:
     lines = f.read().splitlines()
     AWS_ACCESS_KEY_ID = lines[0]
     AWS_SECRET_ACCESS_KEY = lines[1]

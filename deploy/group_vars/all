@@ -1,7 +1,5 @@
 ---
 
-#git_repo: https://github.com/dvingo/guten_better.git
-
 git_repo: git@github.com:dvingo/guten_better.git
 deploy_dir: /srv/guten_better
 server_dir: "{{ deploy_dir }}/server"

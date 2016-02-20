@@ -11,6 +11,13 @@
            version=master
            force=yes
 
+    - name: Make send_emails.sh executable
+      file: path={{ server_dir }}/send_email.sh mode=0755
+
+    - name: Install pip dependencies
+      sudo: yes
+      command: "{{ virtualenv_name }}/bin/pip install -r requirements.txt chdir={{ bottle_deploy_dir }}"
+
     - name: Restart uwsgi
       sudo: yes
       service: name=uwsgi state=restarted
